@@ -4,6 +4,9 @@ type User = {
   email: string;
 };
 
+type UserListProps = {
+  users: User[];
+};
 
 function UserList({ users }: UserListProps) {
   return (
