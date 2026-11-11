@@ -1,5 +1,6 @@
 # SBA-10-Advanced-React
 SBA 10: Advanced React
+<img width="1115" height="815" alt="Screenshot 2026-11-11 at 3 53 41 PM" src="https://github.com/user-attachments/assets/d623ddd7-fe96-4cd5-b99a-4a0466f720ea" />
 
 
 ## Reflection
