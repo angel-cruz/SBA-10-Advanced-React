@@ -8,12 +8,11 @@ type RecipeCardProps = {
 
 function RecipeCard({ recipe }: RecipeCardProps) {
   return (
-    <div className="recipe-card">
+    <Link to={`/recipe/${recipe.idMeal}`} className="recipe-card">
       <img src={recipe.strMealThumb} alt={recipe.strMeal} />
       <h3>{recipe.strMeal}</h3>
-      <p>{recipe.strCategory}</p>
-      <Link to={`/recipe/${recipe.idMeal}`}>View Recipe</Link>
-    </div>
+      <p>View Recipe</p>
+    </Link>
   );
 }
 
