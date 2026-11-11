@@ -1,81 +1,43 @@
 
-import { useState } from "react";
-import useFetch from "./hooks/useFetch";
-import RecipeList from "./components/RecipeList";
-import { useFavorites } from "./context/FavoritesContext";
-import type { RecipeResponse } from "./types/Recipe";
+import { Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import CategoryPage from "./pages/CategoryPage";
+import RecipeDetail from "./pages/RecipeDetail";
+import FavoritesPage from "./pages/FavoritesPage";
+import SearchPage from "./pages/SearchPage";
+
 import "./App.css";
 
 function App() {
-
-  // Store the text entered by the user
-  const [search, setSearch] = useState("");
-
-  // Store the submitted search term
-  const [searchTerm, setSearchTerm] = useState("");
-
-  // Access favorite recipes
-  const { favorites } = useFavorites();
-
-  // Create the API URL
-  const apiUrl =
-    `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(searchTerm)}`;
-
-  // Fetch recipes using our custom hook
-  const { data, loading, error } =
-    useFetch<RecipeResponse>(apiUrl);
-
-  // Get recipes from the API response
-  const recipes = data?.meals || [];
-
-  // Handle search form submission
-  function handleSearch(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSearchTerm(search.trim());
-  }
-
   return (
-    <div className="container">
+    <>
+      {/* Shared navigation appears on every page */}
+      <Navbar />
 
-      <h1>Recipe Discovery App</h1>
+      <main className="container">
+        <Routes>
+          <Route path="/" element={<Home />} />
 
-      <p>Search for your favorite meals!</p>
+          <Route
+            path="/category/:categoryName"
+            element={<CategoryPage />}
+          />
 
-      {/* Search form */}
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Search recipes..."
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-        />
+          <Route
+            path="/recipe/:recipeId"
+            element={<RecipeDetail />}
+          />
 
-        <button type="submit">
-          Search
-        </button>
-      </form>
+          <Route path="/favorites" element={<FavoritesPage />} />
 
-      {/* Favorite recipe count */}
-      <h3>Favorite Recipes: {favorites.length}</h3>
+          <Route path="/search" element={<SearchPage />} />
 
-      {/* Loading state */}
-      {loading && <p>Loading recipes...</p>}
-
-      {/* Error state */}
-      {error && <p className="error">{error}</p>}
-
-      {/* Display recipes */}
-      {!loading && !error && (
-        <>
-          {recipes.length > 0 ? (
-            <RecipeList recipes={recipes} />
-          ) : (
-            <p>No recipes found.</p>
-          )}
-        </>
-      )}
-
-    </div>
+          <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+        </Routes>
+      </main>
+    </>
   );
 }
 
